@@ -4,8 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
 import org.jsoup.Jsoup;
-
-import java.sql.Time;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +24,9 @@ public class Index extends Page{
         basketCheck();
         search();
         Soup();
-        Product();
+        String price = Product();
+        priceCheck(price);
+        Basket();
     }
 
     private boolean check(String xpath){
@@ -64,9 +64,11 @@ public class Index extends Page{
     }
 
     private void search(){
+//      find input and enter "pantalon"
         JavascriptExecutor js = (JavascriptExecutor) this._driver;
         WebElement search = this._driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div/div/div/input"));
         search.sendKeys("Pantalon");
+//      Press the Enter key
         search.sendKeys(Keys.ENTER);
 
         try {
@@ -90,34 +92,69 @@ public class Index extends Page{
         }
         String page = this._driver.getPageSource();
         Document doc = Jsoup.parse(page);
+//      find out how many products in page and pick a randomly
         Elements products = doc.getElementsByClass("col-sm-4 col-md-4 col-lg-4 o-productList__itemWrapper");
-        System.out.println(products.size());
 //        int randNumber = rn.nextInt(products.size())+2;
 //        System.out.println(randNumber);
         int randNumber = 32;
+
+//      enter the randomly selected product
         String xpath = String.format("/html/body/div[5]/div/div[1]/div[2]/div[%d]",randNumber);
-        //        System.out.println(page);
         WebElement product = this._driver.findElement(By.xpath(xpath));
         product.click();
-
-
     }
 
-    private void Product(){
-        //      select minimum size
+    private String Product(){
+        // select minimum size and add basket after then I keep the price of the product,
+        // so I can to compare in basket price
         this._driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/div[2]/div[2]/div[3]/div/div/span[1]")).click();
-
         WebElement addBasket = this._driver.findElement(By.id("addBasket"));
         addBasket.click();
         String page = this._driver.getPageSource();
         Document doc = Jsoup.parse(page);
         String price = doc.getElementsByClass("m-price__new").text();
-
         WebElement basket = this._driver.findElement(By.xpath("/html/body/header/div/div/div[3]/div/a[3]/span"));
         basket.click();
+        return price;
+    }
+
+    private void priceCheck(String productPrice){
+//      This function compare the price
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String page = this._driver.getPageSource();
+        Document doc = Jsoup.parse(page);
+        String price = doc.getElementsByClass("m-productPrice__salePrice").text();
+        if (productPrice.equals(price)){
+            System.out.println("Urun fiyati dogrudur.");
+        }else{
+            System.out.println("Urun fiyati yanlis.");
+        }
     }
 
     private void Basket(){
-        
+//      Product count is 2
+        this._driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/div[1]/div/div/div[1]/div[2]/ul/li[3]/div[2]/div/select/option[2]")).click();
+
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//      clear the basket
+        this._driver.findElement(By.id("removeCartItemBtn0")).click();
+
+//      basket cleared message check
+        String page = this._driver.getPageSource();
+        Document doc = Jsoup.parse(page);
+        String message = doc.getElementsByClass("m-empty__messageTitle").text();
+        if (message.equals("Sepetinizde Ürün Bulunmamaktadır")) {
+            System.out.println("Project is done");
+        }
+
     }
+
 }
