@@ -4,7 +4,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -13,19 +12,18 @@ public class Search extends Page{
 
     public Search(WebDriver driver) {
         this._driver = driver;
-        init();
     }
 
     public void init(){
         search();
-        Soup();
+        selectRandomProduct();
     }
 
-    private void search(){
+    public void search(){
 //      find input and enter "pantalon"
         JavascriptExecutor js = (JavascriptExecutor) this._driver;
         WebElement search = this._driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div/div/div/input"));
-        search.sendKeys("Pantalon");
+        search.sendKeys("pantolan");
 //      Press the Enter key
         search.sendKeys(Keys.ENTER);
 
@@ -41,7 +39,7 @@ public class Search extends Page{
         this._driver.findElement(By.id("moreContentButton")).click();
     }
 
-    private void Soup(){
+    public void selectRandomProduct(){
         Random rn = new Random();
         try {
             TimeUnit.SECONDS.sleep(1);

@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 public class Product extends Page {
     public Product(WebDriver driver) {
         this._driver = driver;
-        init();
     }
 
     public void init() {
@@ -19,7 +18,7 @@ public class Product extends Page {
         priceCheck(product());
     }
 
-    private String product(){
+    public String product(){
         // select minimum size and add basket after then I keep the price of the product,
         // so I can to compare in basket price
         this._driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/div[2]/div[2]/div[3]/div/div/span[1]")).click();
@@ -33,7 +32,7 @@ public class Product extends Page {
         return price;
     }
 
-    private void priceCheck(String productPrice){
+    public boolean priceCheck(String productPrice){
 //      This function compare the price
         try {
             TimeUnit.SECONDS.sleep(1);
@@ -44,9 +43,9 @@ public class Product extends Page {
         Document doc = Jsoup.parse(page);
         String price = doc.getElementsByClass("m-productPrice__salePrice").text();
         if (productPrice.equals(price)){
-            System.out.println("Urun fiyati dogrudur.");
-        }else{
-            System.out.println("Urun fiyati yanlis.");
+            return true;
         }
+        return false;
     }
+
 }
