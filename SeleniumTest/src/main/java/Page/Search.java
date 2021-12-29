@@ -42,7 +42,7 @@ public class Search extends Page{
     public void selectRandomProduct(){
         Random rn = new Random();
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

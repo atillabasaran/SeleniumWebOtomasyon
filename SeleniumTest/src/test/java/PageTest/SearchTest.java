@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class SearchTest extends BaseTest{
 
@@ -17,7 +19,12 @@ public class SearchTest extends BaseTest{
     public void searchWithCorrectLink(){
         Search searchpage = new Search(this.driver);
         searchpage.search();
-        Assertions.assertEquals("https://www.beymen.com/search?q=pantolan", this.driver.getCurrentUrl());
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assertions.assertEquals("https://www.beymen.com/search?q=pantolan&sayfa=2", this.driver.getCurrentUrl());
     }
 
     @Test
