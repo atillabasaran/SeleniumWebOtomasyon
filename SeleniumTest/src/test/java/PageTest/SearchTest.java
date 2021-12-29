@@ -1,8 +1,7 @@
-package IndexTest;
+package PageTest;
 
 import BaseTest.BaseTest;
 import Page.Search;
-import Page.Index;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

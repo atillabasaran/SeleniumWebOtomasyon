@@ -1,4 +1,4 @@
-package IndexTest;
+package PageTest;
 
 import BaseTest.BaseTest;
 import Page.Product;
