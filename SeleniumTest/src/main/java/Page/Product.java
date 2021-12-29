@@ -3,6 +3,7 @@ package Page;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -21,9 +22,19 @@ public class Product extends Page {
     public String product(){
         // select minimum size and add basket after then I keep the price of the product,
         // so I can to compare in basket price
-        this._driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/div[2]/div[2]/div[3]/div/div/span[1]")).click();
+        try{
+        this._driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/div[2]/div[2]/div[3]/div/div/span[@class='m-variation__item']")).click();
+        }catch (NoSuchElementException e){
+            this._driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/div[2]/div[2]/div[3]/div/div/span[@class='m-variation__item -criticalStock']")).click();
+        }
+
         WebElement addBasket = this._driver.findElement(By.id("addBasket"));
         addBasket.click();
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String page = this._driver.getPageSource();
         Document doc = Jsoup.parse(page);
         String price = doc.getElementsByClass("m-price__new").text();

@@ -12,17 +12,28 @@ public class BasketTest extends BaseTest {
 
     @Test
     @Order(1)
+    public void can2ProductsSelected(){
+        Basket basket = new Basket(this.driver);
+        new Search(this.driver).init();
+        new Product(this.driver).init();
+        Assertions.assertTrue(basket.is2ProductsAvailable());
+    }
+
+    @Test
+    @Order(2)
     public void priceEqualShouldReturnTrue(){
         Basket basket = new Basket(this.driver);
+        this.driver.get("https://www.beymen.com");
         new Search(this.driver).init();
         new Product(this.driver).init();
         Assertions.assertTrue(basket.countCheck());
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     public void basketIsClear(){
         Basket basket = new Basket(this.driver);
+        basket.basket();
         this.driver.get("https://www.beymen.com");
         new Search(this.driver).init();
         new Product(this.driver).init();

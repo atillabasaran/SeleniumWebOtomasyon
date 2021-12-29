@@ -50,9 +50,7 @@ public class Search extends Page{
         Document doc = Jsoup.parse(page);
 //      find out how many products in page and pick a randomly
         Elements products = doc.getElementsByClass("col-sm-4 col-md-4 col-lg-4 o-productList__itemWrapper");
-//        int randNumber = rn.nextInt(products.size())+2;
-//        System.out.println(randNumber);
-        int randNumber = 32;
+        int randNumber = rn.nextInt(products.size())+2;
 
 //      enter the randomly selected product
         String xpath = String.format("/html/body/div[5]/div/div[1]/div[2]/div[%d]",randNumber);
