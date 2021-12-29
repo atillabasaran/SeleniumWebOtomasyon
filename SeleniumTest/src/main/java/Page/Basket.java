@@ -22,6 +22,8 @@ public class Basket extends Page{
     }
 
     public boolean is2ProductsAvailable(){
+//      sometimes the function choose a limited stock product.
+//      That's why this function checks if there is a right to buy 2 same products chosen.
         try {
             this._driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/div[1]/div/div/div[1]/div[2]/ul/li[3]/div[2]/div/select/option[2]"));
             this._driver.findElement(By.id("removeCartItemBtn0")).click();
@@ -33,6 +35,7 @@ public class Basket extends Page{
     }
 
     public boolean countCheck(){
+//      It compares prices and checks whether 2 products are really selected.
         String page = this._driver.getPageSource();
         Document doc = Jsoup.parse(page);
         String price = doc.getElementsByClass("m-productPrice__salePrice").text();
@@ -58,7 +61,7 @@ public class Basket extends Page{
     }
 
     public boolean basket(){
-//        this._driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/div[1]/div/div/div[1]/div[2]/ul/li[3]/div[2]/div/select/option[2]")).click();
+//      The function cleans the basket and checks is it cleaned.
 
         try {
             TimeUnit.SECONDS.sleep(3);
